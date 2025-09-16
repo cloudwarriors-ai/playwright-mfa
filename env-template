@@ -1,0 +1,8 @@
+# Template .env file for Teams MFA Authentication
+# Copy to .env and fill in your actual credentials
+
+# Microsoft Teams credentials
+TEAMS_TOKEN={"username":"your-username@example.com","password":"your-password"}
+
+# Note: Keep this file secure and never commit real credentials to version control
+# The actual .env file should be listed in .gitignore

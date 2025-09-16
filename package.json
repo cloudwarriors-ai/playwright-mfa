@@ -1,0 +1,25 @@
+{
+  "name": "playwright-auth-manager",
+  "version": "1.0.0",
+  "description": "Flexible authentication manager for Playwright automation",
+  "main": "auth-manager.js",
+  "bin": {
+    "auth-tool": "./auth-tool.js"
+  },
+  "scripts": {
+    "test": "node usage-example.js",
+    "install-playwright": "npx playwright install"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0",
+    "puppeteer": "^24.21.0"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "authentication",
+    "testing"
+  ],
+  "author": "",
+  "license": "MIT"
+}

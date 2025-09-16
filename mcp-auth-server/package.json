@@ -1,0 +1,21 @@
+{
+  "name": "mcp-auth-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "mcp-auth-server": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["mcp", "auth", "playwright", "chrome"],
+  "author": "",
+  "license": "ISC",
+  "description": "MCP server for authentication with remote Chrome sessions",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.0",
+    "playwright": "^1.55.0"
+  }
+}
