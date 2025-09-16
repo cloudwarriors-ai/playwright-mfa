@@ -15,6 +15,23 @@ TEAMS_TOKEN={"username":"your-admin@yourdomain.com","password":"your-secure-pass
 
 Make sure to keep this file secure and never commit it to version control. This is the credential that will be used during the authentication process.
 
+#### Verifying Credentials
+Before attempting authentication, it's a good practice to verify that your credentials are properly loaded from the .env file:
+
+```javascript
+// Verify .env file exists
+glob({
+  pattern: ".env"
+})
+
+// Test loading credentials from .env file
+auth-mcp_get_credentials({
+  tokenName: "TEAMS_TOKEN"
+})
+```
+
+You should see a confirmation message that includes your username but hides the password for security reasons. Make sure the username displayed matches what you expect. If you don't see this confirmation, your .env file might be incorrectly formatted or the TEAMS_TOKEN might not be correctly defined.
+
 ## Authentication Steps
 
 ### 1. Connect to Chrome session
@@ -44,11 +61,35 @@ playwright_browser_click({
 ```
 
 ### 4. Enter password
+
+There are two methods to enter the password. Method A uses automatic credential filling, while Method B uses manual password entry (preferred if Method A fails):
+
+#### Method A: Automatic Credential Filling (May Not Work Consistently)
 ```javascript
+auth-mcp_fill_text({
+  selector: "input[type='password']",
+  text: "@@password-from-credentials@@"
+})
+
+playwright_browser_click({
+  element: "Sign in button",
+  ref: "element_reference"
+})
+```
+
+#### Method B: Manual Password Entry (More Reliable)
+```javascript
+// First, get credentials from the environment and verify they loaded correctly
+auth-mcp_get_credentials({
+  tokenName: "TEAMS_TOKEN"
+})
+
+// Manually type the password from your .env file (in this example "C0mpr0m!z4d" or whatever your password is)
+// Important: Use the actual password from your .env file, DO NOT use "@@password-from-credentials@@" as it may not work correctly
 playwright_browser_type({
-  element: "password field",
+  element: "Enter the password for your-admin@yourdomain.com",
   ref: "element_reference", 
-  text: "password_from_token"
+  text: "C0mpr0m!z4d"  // Replace with your actual password from the .env file
 })
 
 playwright_browser_click({
@@ -131,3 +172,7 @@ playwright_browser_take_screenshot({
 3. **Error Handling**: If you encounter errors like "We couldn't sign you in" or "Your account has been locked", you may need to address account-specific issues.
 
 4. **CDP Connection Issues**: If the CDP connection fails, ensure Chrome is running with remote debugging enabled on port 9222.
+
+5. **Password Entry Issues**: If automatic credential filling fails, use the manual password entry method (Method B) which has proven more reliable during testing. Make sure to use the actual password string from your .env file rather than relying on the token replacement mechanism.
+
+6. **Stay Signed In Prompt**: After successful MFA authentication, you may be asked if you want to "Stay signed in". Click "Yes" to proceed to the Teams Admin Portal.
